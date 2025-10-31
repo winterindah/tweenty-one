@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="gallery.css">
+    <title>BABY'S BIRTHDAY</title>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+</head>
+<style type="text/tailwindcss"></style>
+<body class="bg-pink-50 min-h-screen flex flex-col items-center p-6 relative overflow-hidden">
+    <!-- Audio Player untuk Playlist -->
+    <audio id="bg-music" preload="auto"></audio>
+    <button id="play-btn" onclick="playMusic()" style="position: fixed; top: 50%; right: 10px; transform: translateY(-50%); z-index: 1000; background: pink; color: white; border: none; padding: 8px; border-radius: 50%; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">▶</button>
+    <script>
+        // Playlist lagu - tambahkan lagu baru di sini
+        const playlist = [
+            'music/Daniel Caesar - Japanese Denim.mp3',
+            'music/Luthfi Aulia  - Langit Favorit.mp3',
+            'music/LANY - dna.mp3',
+            'music/Harry Styles - Adore You.mp3',
+            'music/Ariana Grande - Into You.mp3',
+            'music/Arash Buana - i really do love her.mp3',
+            'music/mrld - AN ART GALLERY COULD NEVER BE AS UNIQUE AS YOU.mp3'
+        ];
+        let currentSongIndex = 0;
+
+        function playMusic() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('play-btn');
+
+            if (audio.src === '') {
+                // Mulai dari lagu pertama
+                audio.src = playlist[currentSongIndex];
+            }
+
+            audio.play().then(() => {
+                btn.style.display = 'none'; // Sembunyikan tombol setelah play
+                localStorage.setItem('musicPlaying', 'true');
+                localStorage.setItem('currentSongIndex', currentSongIndex);
+            }).catch(e => console.log('Play failed:', e));
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            const audio = document.getElementById('bg-music');
+            audio.src = playlist[currentSongIndex];
+            audio.play().then(() => {
+                localStorage.setItem('currentSongIndex', currentSongIndex);
+            }).catch(e => console.log('Next song failed:', e));
+        }
+
+        // Coba autoplay saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('play-btn');
+
+            // Load saved song index
+            const savedIndex = parseInt(localStorage.getItem('currentSongIndex')) || 0;
+            currentSongIndex = savedIndex;
+            audio.src = playlist[currentSongIndex];
+
+            // Cek apakah musik sedang play dari halaman sebelumnya
+            const isPlaying = localStorage.getItem('musicPlaying') === 'true';
+            const savedTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+
+            if (isPlaying) {
+                audio.currentTime = savedTime; // Set waktu dari sebelumnya
+                audio.play().then(() => {
+                    btn.style.display = 'none'; // Sembunyikan tombol jika musik sudah play
+                }).catch(e => {
+                    console.log('Autoplay blocked, showing play button:', e);
+                    // Tombol tetap terlihat jika autoplay diblokir
+                });
+            } else {
+                // Jika tidak sedang play, coba autoplay
+                audio.play().then(() => {
+                    btn.style.display = 'none'; // Sembunyikan tombol jika autoplay berhasil
+                    localStorage.setItem('musicPlaying', 'true');
+                }).catch(e => {
+                    console.log('Autoplay blocked, showing play button:', e);
+                    // Tombol tetap terlihat jika autoplay diblokir
+                });
+            }
+
+            // Event listener untuk next song saat lagu selesai
+            audio.addEventListener('ended', nextSong);
+        });
+
+        // Simpan state saat musik berhenti (misal user pause)
+        document.getElementById('bg-music').addEventListener('pause', function() {
+            localStorage.setItem('musicPlaying', 'false');
+        });
+
+        // Simpan currentTime saat leave halaman
+        window.addEventListener('beforeunload', function() {
+            const audio = document.getElementById('bg-music');
+            localStorage.setItem('musicCurrentTime', audio.currentTime);
+        });
+    </script>
+    
+        <!-- LOGO -->
+         <nav class="navbar fixed inset-x-0 top-5 z-50">
+            <img src="logo.png" alt="Logo" 
+            style="height: 90px !important; width: auto !important; transform: scale(0.8) 
+                    !important;"
+            class="drop-shadow">
+            <div id="navbar-text" class="absolute left-1/2 transform">
+                <span class="text-pink-700 font-bold text-sm md:text-base 
+                lg:text-lg tracking-wider text-sm md:text-base lg:text-lg ">
+                <a href="home-1.html" class="hover:text-pink-400 px-10">HOME</a>
+                <span class="text-pink-300"></span>
+                <a href="for-u.html" class="hover:text-pink-400 px-10">FOR U</a>
+                <span class="text-pink-300"></span>
+                <a href="gallery.html" class="hover:text-pink-400 px-10">BABY'S GALLERY</a>
+            </div>
+        </nav>
+
+        <!-- Background Photo -->
+        <div class="absolute inset-0 bg-[url('jaring.png')] bg-cover bg-center opacity-28
+                    absolute -left-18 bg:-left-5 md:-left-130 pointer-events-none z-0">
+        </div>
+        <div class="absolute inset-0 bg-[url('spider.png')] bg-cover bg-center opacity-55
+                    absolute -left-18 bg:-left-5 md:-left-130 pointer-events-none z-0">
+        </div>
+
+        <!-- Spider Images -->
+        <div class="fixed top-[-12%] left-2 z-10 pointer-events-none">
+            <img src="spider/spider-6.png" alt="Spider Top Left" class="w-40 md:w-70 drop-shadow-2xl">
+        </div>
+        <div class="fixed bottom-0 left-0 z-10 pointer-events-none">
+            <img src="spider/spider-3.png" alt="Spider Bottom Left" class="w-40 md:w-56 drop-shadow-2xl">
+        </div>
+        <div class="fixed top-0 right-[-1%] z-10 pointer-events-none">
+            <img src="spider/spider-4.png" alt="Spider Top Right" class="w-60 md:w-80 drop-shadow-2xl">
+        </div>
+        <div class="fixed bottom-0 right-[-1%] z-10 pointer-events-none">
+            <img src="spider/spider-5.png" alt="Spider Bottom Right" class="w-40 md:w-60 drop-shadow-2xl">
+        </div>
+        <br><br><br><br><br>
+        <section id="tranding">
+        <!-- Title -->
+             <div class="header text-center mt-24 mb-8 z-10">
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-pink-700 tracking-wider">
+                WELCOME TO MEMORIES
+                </h2>
+                <p class="mt-2 text-sm md:text-base text-pink-600 font-light">
+                "A piece of your memory, kept with me no matter the place."
+                </p>
+            </div>
+        
+        <div class="container">
+            <div class="swiper tranding-slider">
+                <div class="swiper-wrapper">
+                    <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-1.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                30 Oct 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>gimana bisa aku lupa dengan pap pertamamu ini?</span>
+                                
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>"aku lagi diluar kaa"</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-2.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                24 Nov 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>ini tuh. SEBELUM AKU CONFESS (ASAL)</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>"mewing dulu kak"</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-3.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                28 Nov 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"tebak mau kemana"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>LUCU PINK GITUUUU</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-4.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                28 Nov 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"KAKAK"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>MAMPUS AKU SUKA KALO DIA CLINGY GITUU</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-5.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                04 Dec 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>gak bohong ini bahaya soalnya bahas <br>"PANGKU" ALKSJALKDIWD</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>tapi dia cantik yaahhh heheheh</span>
+                            </h4>
+                            <h5 class="food-rating">
+                                <span>((crush aku gituu :p))</span>
+                            </h5>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-6.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                18 Dec 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>dia kayanya ngga makan 1 minggu deh,<br>soalnya abis 25 PLATE SENDIRIANNN
+                                    KEK.. GG
+                                </span>
+                            </h3>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-7.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                18 Dec 24'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"makan kak"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>kataku mah bener kaya slime dibilang 😝</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-8.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="symbol">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="date">
+                                28 Dec 24'
+                            </h2>
+                            <h3 class="text-bottom">
+                                <span>((PINGSAN))</span>
+                            </h3>
+                            <h4 class="text-bottom">
+                                <span>HI CANTIKKUUU 🧏🏻‍♀️</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-9.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                1 Apr 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"hai"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>"pamer"</span>
+                            </h4>
+                            <h5 class="food-rating">
+                                <span>maaf tapi, GAK BOONG PENGEN NOEL PIPIII<br> (GEMESSSS) 🤏🏻</span>
+                            </h5>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-10.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                15 Apr 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"kak"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>"disini knp aku kek kecil bgt y"</span>
+                            </h4>
+                            <h5 class="food-rating">
+                                <span>"njir"</span>
+                            </h5>
+                            <h6 class="food-rating">
+                                <span>"kecil bgt"</span>
+                            </h6>
+                            <h7 class="food-rating">
+                                <span>TENGGELAM DI DALAM HOODIE DIA GUYS :p</span>
+                            </h7>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-11.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                18 Apr 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"aku jg diluar"</span>
+                            </h3>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-12.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                22 May 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"ootd gembel"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>mau ootd gembel kek,<br> apapun mah aku masih demen 🙂‍↔️</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-13.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                28 May 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"blm ganti baju ya Allah"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>pose andalan melet guys :p (lucu)</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-14.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                11 June 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"liat bajuku penuh darah"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>SUMPAH AKU PANIK. KARENA SEBELUMNYA TUH <br> TIBA-TIBA PAP TISU PENUH DARAH 💔</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-15.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                01 July 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>dia emang suka gitu ya?</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>tiba-tiba tanpa sepatah kata langsung<br> jebret PAP (?)
+                                    KAN AKU SHOCK BABY???<br> mff salting</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-16.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                03 August 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>cantikku potram guyss :p</span>
+                            </h3>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-17.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                03 August 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"rapih bgt lol"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>CANTIK BANGET LOLLL :p</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-18.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                12 Sept 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>KETEMU MY FINESHYT GUYS <br>((YAALLAHHH GEMETAR)).</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>fyi, malem sebelum ketemua dia,<br> aku pipis 5 kali 
+                                    karena deg-degan<br> first time ketemu my fineshyt LOL.</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-19.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                30 Sept 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>dia lagi nginep sama (wanita itu lagi guys)</span>
+                            </h3>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+                <!-- Slide-start -->
+                    <div class="swiper-slide tranding-slide">
+                        <div class="tranding-slide-img">
+                            <img src="img/cia-20.jpg" alt="Tranding">
+                        </div>
+                        <div class="tranding-slide-content">
+                            <h1 class="food-price">🤍</h1>
+                            <div class="tranding-slide-content-bottom">
+                            <h2 class="food-name">
+                                02 Oct 25'
+                            </h2>
+                            <h3 class="food-rating">
+                                <span>"MAKASIHHHHHH"</span>
+                            </h3>
+                            <h4 class="food-rating">
+                                <span>SENGGGGGG 🙂‍↔️</span>
+                            </h4>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Slide-end -->
+            </div>
+            </div>
+
+            <div class="tranding-slider-control">
+                <div class="swiper-button-prev slider-arrow">
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                </div>
+                <div class="swiper-button-next slider-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+
+        <!-- PANAH KANAN -->
+    <button id="next-btn" class="nav-btn next-btn">→</button>
+
+        
+    </section>
+    
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="gallery.js"></script>
+    
+</body>
+</html>

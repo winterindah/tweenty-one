@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>BABY'S BIRTHDAY</title>
+    <link rel="icon" href="logo.png" type="image/x-icon">
+</head>
+<style type="text/tailwindcss"></style>
+<body class="overflow-x-hidden">
+    <!-- Audio Player untuk Playlist -->
+    <audio id="bg-music" preload="auto"></audio>
+    <button id="play-btn" onclick="playMusic()" style="position: fixed; top: 50%; right: 10px; transform: translateY(-50%); z-index: 9999; background: pink; color: white; border: none; padding: 8px; border-radius: 50%; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">▶</button>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script> -->
+<section class="hero-section">
+    <!-- LOGO -->
+        <nav class="navbar fixed inset-x-0 top-5 z-50 flex flex-col md:flex-row items-center 
+            justify-center gap-2 px-4 md:px-10 text-xs sm:text-sm md:text-base">
+            <img src="logo.png" alt="Logo" 
+            style="height: 90px !important; width: auto !important; transform: scale(0.8) 
+            !important;"
+            class="drop-shadow">
+
+            <!-- MENU -->
+            <div class="absolute left-1/2 transform">
+                <span class="text-pink-700 font-bold text-sm md:text-base 
+                lg:text-lg tracking-wider text-sm md:text-base lg:text-lg ">
+                <a href="#" class="hover:text-pink-400 px-10">HOME</a>
+                <span class="text-pink-300"></span>
+                <a href="for-u.html" class="hover:text-pink-400 px-10">FOR U</a>
+                <span class="text-pink-300"></span>
+                <a href="gallery.html" class="hover:text-pink-400 px-10">BABY'S GALLERY</a>
+            </div>
+        </nav>
+
+        <!-- Background Photo -->
+         <div class="absolute inset-0 bg-[url('jaring.png')] bg-cover bg-center opacity-28 
+        absolute -left-18 bg:-left-5 md:-left-130 pointer-events-none z-0">
+        </div>
+        <div class="absolute inset-0 bg-[url('spider.png')] bg-cover bg-center opacity-55 
+        absolute -left-18 bg:-left-5 md:-left-130 pointer-events-none z-0">
+        </div>
+        
+        <!-- HERO SECTION -->
+        <div class="hero-content relative z-10 min-h-screen flex flex-col 
+        items-center justify-center px-6">
+            <h1 class="text-spider pointer-events-none w-[98%] max-w-xl md:max-w-2xl 
+            lg:max-w-3xl mx-auto">
+                <img src="spider-woman.png" alt="Spider Woman" class="w-full h-auto mx-auto">
+            </h1>
+
+            <h2 class="text-cia pointer-events-none absolute z-10 top-1/2 left-1/2 transform 
+            -translate-x-[62%] -translate-y-[90%] max-w-sm md:max-w-md lg:max-w-lg">
+                <img src="cia.png" alt="CIA" class="pointer-events-none">
+            </h2><br><br><br>
+
+            <p class="text-baby text-center text-pink-300 font-light mt-8 z-20 text-sm 
+            md:text-base">
+                Hi, Baby! <br>
+                Welcome to second gift from me, baby! <br>Hope you like my gift yang sederhana ini yaaa, baby. <br>
+                Special for you, one and only. Because you're so special to me 🤍.
+            </p>
+
+            <div class="mt-10 z-[100] relative py-2 px-6 md:py-3 md:px-8">
+            <button
+                onclick="window.location.href='for-u.html'"
+                class="
+                bg-transparent border-2 border-pink-500 
+                text-pink-500 hover:bg-pink-500 hover:text-white 
+                font-bold py-3 px-8 rounded-full 
+                transition-all duration-300 
+                z-50 relative 
+                pointer-events-auto 
+                cursor-pointer 
+                shadow-lg hover:shadow-pink-500/50
+                transform hover:scale-110
+                z-[9999]
+                "
+            >
+                CAN YOU CLICK ME, BABY?
+            </button>
+            </div>
+        </div>
+
+        <!-- RIght Photo -->
+         <div class="sticky top-0 h-screen flex justify-end items-start pr-4 md:pr-12 
+         -mt-8 md:-mt-14 overflow-hidden ">
+            <div class="relative w-full max-w-md md:max-w-lg ">
+            <img 
+                src="spider-1.png" 
+                alt="Spider-Man" 
+                class="w-full h-auto object-contain object-right scale-135 
+            origin-right"></div>
+        </div>
+
+    </section>
+
+
+</body>
+
+<script>
+    // Playlist lagu - tambahkan lagu baru di sini
+    const playlist = [
+        'music/Daniel Caesar - Japanese Denim.mp3',
+        'music/Luthfi Aulia  - Langit Favorit.mp3',
+        'music/LANY - dna.mp3',
+        'music/Harry Styles - Adore You.mp3',
+        'music/Ariana Grande - Into You.mp3',
+        'music/Arash Buana - i really do love her.mp3',
+        'music/mrld - AN ART GALLERY COULD NEVER BE AS UNIQUE AS YOU.mp3'
+    ];
+    let currentSongIndex = 0;
+
+    function playMusic() {
+        const audio = document.getElementById('bg-music');
+        const btn = document.getElementById('play-btn');
+
+        if (audio.src === '') {
+            // Mulai dari lagu pertama
+            audio.src = playlist[currentSongIndex];
+        }
+
+        audio.play().then(() => {
+            btn.style.display = 'none'; // Sembunyikan tombol setelah play
+            localStorage.setItem('musicPlaying', 'true');
+            localStorage.setItem('currentSongIndex', currentSongIndex);
+        }).catch(e => console.log('Play failed:', e));
+    }
+
+    function nextSong() {
+        currentSongIndex = (currentSongIndex + 1) % playlist.length;
+        const audio = document.getElementById('bg-music');
+        audio.src = playlist[currentSongIndex];
+        audio.play().then(() => {
+            localStorage.setItem('currentSongIndex', currentSongIndex);
+        }).catch(e => console.log('Next song failed:', e));
+    }
+
+    // Coba autoplay saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.getElementById('bg-music');
+        const btn = document.getElementById('play-btn');
+
+        // Load saved song index
+        const savedIndex = parseInt(localStorage.getItem('currentSongIndex')) || 0;
+        currentSongIndex = savedIndex;
+        audio.src = playlist[currentSongIndex];
+
+        // Cek apakah musik sedang play dari halaman sebelumnya
+        const isPlaying = localStorage.getItem('musicPlaying') === 'true';
+        const savedTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+
+        if (isPlaying) {
+            audio.currentTime = savedTime; // Set waktu dari sebelumnya
+            audio.play().then(() => {
+                btn.style.display = 'none'; // Sembunyikan tombol jika musik sudah play
+            }).catch(e => {
+                console.log('Autoplay blocked, showing play button:', e);
+                // Tombol tetap terlihat jika autoplay diblokir
+            });
+        } else {
+            // Jika tidak sedang play, coba autoplay
+            audio.play().then(() => {
+                btn.style.display = 'none'; // Sembunyikan tombol jika autoplay berhasil
+                localStorage.setItem('musicPlaying', 'true');
+            }).catch(e => {
+                console.log('Autoplay blocked, showing play button:', e);
+                // Tombol tetap terlihat jika autoplay diblokir
+            });
+        }
+
+        // Event listener untuk next song saat lagu selesai
+        audio.addEventListener('ended', nextSong);
+    });
+
+    // Simpan state saat musik berhenti (misal user pause)
+    document.getElementById('bg-music').addEventListener('pause', function() {
+        localStorage.setItem('musicPlaying', 'false');
+    });
+
+    // Simpan currentTime saat leave halaman
+    window.addEventListener('beforeunload', function() {
+        const audio = document.getElementById('bg-music');
+        localStorage.setItem('musicCurrentTime', audio.currentTime);
+    });
+
+    console.log(document.querySelector('button').getBoundingClientRect()); // Cek posisi tombol
+    console.log(getComputedStyle(document.querySelector('button')).pointerEvents); // Cek pointer-events
+
+</script>
+</html>

@@ -1,0 +1,134 @@
+/* Responsivitas */
+        @theme {
+            --color-clifford : #da373d;
+        }
+        /* Gaya dasar untuk body */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FFC1F0; /* Warna latar belakang pink muda */
+            color: #444;
+            
+        }
+
+        /* Gaya untuk area header/hero section */
+        .hero-section {
+            height: 100vh; /* Tinggi penuh viewport */
+            /* Menggunakan gambar sebagai latar belakang. **CATATAN:** Ganti 'Home.jpg' dengan nama file gambar Anda jika berbeda, atau gunakan URL gambar yang sesuai. */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Konten dimulai dari atas */
+            padding-top: 10px;
+        }
+
+        .text-cia, .text-cia img {
+            pointer-events: none;
+            }
+
+        .hero-content img {
+        pointer-events: none;
+        }
+
+        .jaring-bg {
+        background-image: url('jaring.png');
+        background-size: 200px;
+        background-repeat: repeat;
+        }
+        .spider-bg {
+        background-image: url('spider.png');
+        background-size: cover;
+        background-position: center;
+        }
+
+        /* Gaya untuk navigasi */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: #fff; /* Teks navigasi putih */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-logo {
+            font-size: 24px;
+            /* Logo bisa berupa teks atau gambar, di sini saya gunakan gambar logo di pojok kiri atas */
+            height: 40px; 
+            width: auto;
+            display: block;
+        }
+
+        .nav-links a {
+            color: #000; /* Teks link navigasi hitam/gelap sesuai desain */
+            text-decoration: none;
+            margin-left: 40px;
+            font-size: 16px;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #FF0000; /* Efek hover merah */
+        }
+
+        /* Konten utama di tengah */
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            color: #333; /* Warna teks gelap */
+            width: 40%; /* Mengatur lebar konten teks */
+        }
+
+        .hero-content h1 {
+            font-size: 100px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 0.9;
+        }
+
+        .hero-content h2 {
+            font-size: 50px;
+            margin: 0;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-top: 20px;
+            line-height: 1.6;
+            color: #444; /* Warna teks body */
+            background-color: rgba(255, 255, 255, 0.6); /* Sedikit latar belakang agar teks terbaca */
+            padding: 10px;
+            border-radius: 5px;
+            width: fit-content;
+        }
+        
+        .home-photo {
+            position: relative
+        }
+        /* Gaya spesifik untuk teks "Hi, Baby!" */
+        .hero-content p:first-of-type {
+            font-weight: bold;
+            margin-bottom: 5px;
+            background-color: transparent; /* Hilangkan latar belakang jika perlu */
+            padding: 0;
+        }
+
+    
+
+        /* Media query: Aturan khusus untuk layar di bawah 768px */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Ubah ke vertikal di mobile */
+            }
+        }
+        
